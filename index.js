@@ -49,6 +49,19 @@ app.get('/',checkAuthenticated,(req,res)=>{
         bad_msg : req.flash('bad_msg'),
         success_msg : req.flash('success_msg')});
 })
+app.get('/log',checkAuthenticated,(req,res)=>{
+  console.log("bez logowania")
+    res.render('index',{
+        bad_msg : req.flash('bad_msg'),
+        success_msg : req.flash('success_msg')});
+})
+
+app.get('/logout', function(req, res, next) {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
+});
 
 app.get('/list',(req,res)=>{
     res.render('list')
@@ -65,7 +78,7 @@ app.get('/bad',(req,res)=>{
 
 
 /* post  */
-app.post('/a',async (req,res)=>
+app.post('/',async (req,res)=>
 {
 try{
     /* 
@@ -120,7 +133,7 @@ res.redirect('/')
 })
 
 
- app.post('/',passport.authenticate('local',{
+ app.post('/log',passport.authenticate('local',{
 successRedirect:'/panel',
 failureRedirect:'/',
 failureFlash:true
