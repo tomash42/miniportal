@@ -1,0 +1,16 @@
+header{
+    border-bottom:          15px rgb(0, 162, 255) solid;
+  
+}
+
+/* Section  */
+.colOne{
+    background-image:       url("../img/bg.jpg");
+    background-size:        cover;
+    background-repeat:      no-repeat;
+
+
+}
+.colTwo{
+    background:             linear-gradient(-20deg, rgb(1, 91, 143) 0%, 35%, rgb(0, 162, 255)100%);
+}
