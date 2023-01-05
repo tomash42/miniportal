@@ -43,8 +43,8 @@ app.use(flash())
 /* end u */
 
 /* get page */
-app.get('',(req,res)=>{
-
+app.get('/',checkAuthenticated,(req,res)=>{
+  console.log("bez logowania")
     res.render('index',{
         bad_msg : req.flash('bad_msg'),
         success_msg : req.flash('success_msg')});
@@ -53,10 +53,17 @@ app.get('',(req,res)=>{
 app.get('/list',(req,res)=>{
     res.render('list')
 })
+app.get('/panel',checkNotAuthenticated,(req,res)=>{
+
+  console.log(req.user)
+    res.render('panel',{user:req.user.userlogin})
+})
 app.get('/bad',(req,res)=>{
 
     res.render('bad')
 })
+
+
 /* post  */
 app.post('/a',async (req,res)=>
 {
@@ -114,7 +121,7 @@ res.redirect('/')
 
 
  app.post('/',passport.authenticate('local',{
-successRedirect:'/list',
+successRedirect:'/panel',
 failureRedirect:'/',
 failureFlash:true
 }),
@@ -126,16 +133,22 @@ function(req,res,next){
 /*  */
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return res.redirect("/list");
+    return res.redirect("/panel");
   }
   next();
 }
-
+/* 
+*/
 function checkNotAuthenticated(req, res, next) {
+
   if (req.isAuthenticated()) {
+    
+
+ 
+   
     return next();
   }
-  res.redirect("/list");
+  res.redirect("/");
 }
 
 

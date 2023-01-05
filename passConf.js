@@ -36,7 +36,8 @@ function initialize(){
                         }
                         if(isMatch){
                             console.log(' haslo ok ')
-                            return done(null, user);
+                            
+                            return done(null, user,{message:'Password is incorrect'});
 
                         }    
                         else{
