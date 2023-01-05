@@ -5,12 +5,12 @@ const port = 4444
 /* requaied for data base */
 const bcrypt = require('bcrypt');
 const {pool} = require("./dbConfig");
-const LocalStrategy = require('passport-local').Strategy;
 const flash = require('express-flash');
 const sesion = require('express-session');
 const passport = require('passport');
+const initializePassport = require("./passConf");
 
-
+initializePassport(passport)
 /*  */
 
 
@@ -29,21 +29,22 @@ app.set('view engine','ejs');
 /* use */
 app.use(express.urlencoded({extended:false}));
 
-app.use(flash())
+
 app.use(sesion({
  secret: process.env.SESSION_SECRET,
  resave:false,
  saveUninitialized:false
 })
 )
-app.use(passport.session())
-app.use(passport.initialize());
-app.use(passport.session());
 
+app.use(passport.initialize());
+app.use(passport.session())
+app.use(flash())
 /* end u */
 
 /* get page */
 app.get('',(req,res)=>{
+
     res.render('index',{
         bad_msg : req.flash('bad_msg'),
         success_msg : req.flash('success_msg')});
@@ -57,7 +58,7 @@ app.get('/bad',(req,res)=>{
     res.render('bad')
 })
 /* post  */
-app.post('/',async (req,res)=>
+app.post('/a',async (req,res)=>
 {
 try{
     /* 
@@ -68,6 +69,7 @@ try{
 let {name,surname, login, password, tel,email,address} = req.body;
 
   hashPass = await bcrypt.hash(password, 10);
+
   // Validation passed
   pool.query(
     `SELECT * FROM account
@@ -105,22 +107,36 @@ let {name,surname, login, password, tel,email,address} = req.body;
   );
 }
 catch{
-console.log("e")
+console.log("cos poszło nie tak")
 res.redirect('/')
 }
 })
 
 
- app.post('/ds',passport.authenticate('local',{
-successRedirect:'/',
-failureRedirect:'/list',
-failureFlash:flash
+ app.post('/',passport.authenticate('local',{
+successRedirect:'/list',
+failureRedirect:'/',
+failureFlash:true
 }),
 function(req,res,next){
   console.log(res.username);
 }) 
-/*  */
 
+
+/*  */
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return res.redirect("/list");
+  }
+  next();
+}
+
+function checkNotAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/list");
+}
 
 
 
