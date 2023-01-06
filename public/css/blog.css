@@ -1,0 +1,113 @@
+/* */
+section{
+    background-color:     brown;
+    height:                auto;
+}
+
+/* nav */
+.navbar{
+    border-bottom:         10px solid rgb(0, 0, 0);
+}
+/*  */
+/* form */
+
+form{
+background-color: rgb(255, 255, 255);
+
+}
+.card{
+    -webkit-box-shadow:      36px 26px 53px -27px rgba(66, 68, 90, 1);
+    -moz-box-shadow:        36px 26px 53px -27px rgba(66, 68, 90, 1);
+    box-shadow:             36px 26px 53px -27px rgba(66, 68, 90, 1);
+    opacity:                .3;
+    transition:             .5s;
+}
+.card:hover{
+    opacity:                1;
+}
+
+/* First question */
+.col-WithImg-1{
+    background-image:       url("../img/kot.jpg");
+    background-size:        cover;
+    background-repeat:      no-repeat;
+    height:                 40vmax;
+    
+}
+.col-WithCard-1{
+background-color:          #394e6e;
+background-image:           linear-gradient(45deg, #384862 0%, #688a9f 100%);
+}
+.col-WithSvg-1{
+    height:                 8vmax;
+}
+.col-WithSvg-1,
+.col-WithSvg-2
+.arrow-down{
+
+    font-size:              5vmax;
+ }
+
+ .col-WithSvg-1,
+ .col-WithSvg-2 
+ .arrow-down , a:nth-child(1){
+    color:                rgb(0, 0, 0);
+    opacity:                .4;
+    text-decoration:        none;
+    transition:             .5s;
+}
+.col-WithSvg-1,
+.col-WithSvg-2 
+.arrow-down , a:hover{
+    opacity:                1;
+}
+
+/* End FQ */
+
+/* Second question */
+.col-WithImg-2{
+  
+    background-image:       url("../img/pies.jpg");
+    background-size:        cover;
+    background-repeat:      no-repeat;
+    height:                 40vmax;
+    
+}
+
+.col-WithCard-2{
+background-color:          rgba(226, 233, 241, 1);
+background-image:           linear-gradient(351deg, rgba(226, 233, 241, 1) 43%, rgba(255, 255, 255, 1) 82%);
+}
+.col-WithSvg-2{
+    height:                  8vmax;
+}
+/* End SQ */
+
+/* Thrid question */
+.col-WithImg-3{
+    background-image:       url("../img/pogoda.jpg");
+    background-size:        cover;
+    height:                 40vmax;
+    background-repeat:      no-repeat;
+}
+.col-WithCard-3{
+color: aliceblue;
+background-color:            rgba(25, 25, 25, 1);
+background-image:            linear-gradient(95deg, rgba(25, 25, 25, 1) 14%, rgba(68, 40, 40, 1) 50%, rgba(121, 75, 49, 1) 100%);
+}
+.col-WithSvg-3{
+    height:                 5vmax;
+}
+/* End TQ */
+
+
+
+/* media query */
+@media only screen and (max-width: 768px) {
+    .col-WithCard-1 ,
+    .col-WithCard-2 ,
+    .col-WithCard-3 {
+      background-color:        rgb(255, 255, 255);
+      background-image:         none;
+    }
+  }

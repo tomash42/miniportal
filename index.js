@@ -69,7 +69,7 @@ app.get('/list',(req,res)=>{
 app.get('/panel',checkNotAuthenticated,(req,res)=>{
 
   console.log(req.user)
-    res.render('panel',{user:req.user.userlogin})
+    res.render('blog',{user:req.user.userlogin})
 })
 app.get('/bad',(req,res)=>{
 
