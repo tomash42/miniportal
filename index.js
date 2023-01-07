@@ -100,7 +100,7 @@ app.get('/logout', function(req, res, next) {
 
 
 
-
+/* display post  */
 app.get('/list',async (req,res)=>{
   try{
     await pool.query(`	SELECT userlogin, q1, q2,q3post FROM account a join post p on a.id = p.id ORDER BY userlogin; `,
@@ -108,22 +108,17 @@ app.get('/list',async (req,res)=>{
         if (err) {
           console.log(err);
         }
-        if (results.rows.length > 0) {
-        
-         console.log("ok"+ results.rows[1].userlogin)
-         console.log("ok"+ results.rowCount)
-      
-       
-         }
         return res.render('list',{post : results.rows})
         });
   }catch{
     console.log("err")
-    }
+  }
 
 
     
 })
+/* end display post */
+
 app.get('/panel',checkNotAuthenticated,(req,res)=>{
   console.log(req.user);
   res.render('blog',{user:req.user.userlogin});
@@ -182,6 +177,10 @@ let {name,surname, login, password, tel,email,address} = req.body;
   res.redirect('/')
   }
 })
+/* End registry  */
+
+
+
 
 /* send question and save 
 !!!!!make a redirect if user has  previously  added post!!!!!
