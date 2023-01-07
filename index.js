@@ -9,10 +9,7 @@ const flash = require('express-flash');
 const sesion = require('express-session');
 const passport = require('passport');
 const initializePassport = require("./passConf");
-
-
-
-
+const { authenticate } = require('passport');
 initializePassport(passport);
 
 
@@ -28,7 +25,7 @@ app.set('views','./view');
 app.set('view engine','ejs');
 /* end V */
 
-/* use */
+/* app use */
 app.use(express.urlencoded({extended:false}));
 
 
@@ -44,7 +41,7 @@ app.use(passport.session())
 app.use(flash())
 /* end u */
 
-/* get page */
+/* app get page */
 app.get('/',checkAuthenticated,(req,res)=>{
   console.log("bez logowania")
     res.render('index',{
@@ -66,21 +63,75 @@ app.get('/logout', function(req, res, next) {
     res.redirect('/');
   });
 });
+/* app.get('/checklist',async (req,res)=>{
+  try{
+    
+   
+    // Validation passed
+   await pool.query(
+      `SELECT userlogin, q1, q2,q3post FROM account a join post p on a.id = p.id WHERE userlogin = 'a' `,
+      (err, results) => {
+        if (err) {
+          console.log(err);
+        }
+        if (results.rows.length > 0) {
+        
+          console.log("ok"+ results.rows[2].q1)
+          for(let i =0 ; i<results.rows.length-1 ;i++){
+            console.log(results.rows[i].q1 + i)
+            console.log(results.rows[i].q2 + i)
+            console.log(results.rows[i].q3post + i)
+          }
+         
+     }
+        
 
-app.get('/list',(req,res)=>{
   
-    res.render('list')
+     
+      }
+      
+    );
+  }catch{
+    console.log("err")
+    }
+    
+    res.redirect('/list')
+}) */
+
+
+
+
+app.get('/list',async (req,res)=>{
+  try{
+    await pool.query(`	SELECT userlogin, q1, q2,q3post FROM account a join post p on a.id = p.id ORDER BY userlogin; `,
+      (err, results) => {
+        if (err) {
+          console.log(err);
+        }
+        if (results.rows.length > 0) {
+        
+         console.log("ok"+ results.rows[1].userlogin)
+         console.log("ok"+ results.rowCount)
+      
+       
+         }
+        return res.render('list',{post : results.rows})
+        });
+  }catch{
+    console.log("err")
+    }
+
+
+    
 })
 app.get('/panel',checkNotAuthenticated,(req,res)=>{
-
-  console.log(req.user)
-
-    res.render('blog',{user:req.user.userlogin})
+  console.log(req.user);
+  res.render('blog',{user:req.user.userlogin});
 })
 
 
 
-/* post */
+/* app post */
 
 /*registry new user and check if already exist user  */
 app.post('/',async (req,res)=>
@@ -97,9 +148,7 @@ let {name,surname, login, password, tel,email,address} = req.body;
 
   // Validation passed
  await pool.query(
-    `SELECT * FROM account
-      WHERE userlogin = $1`,
-    [login],
+    `SELECT * FROM account WHERE userlogin = $1`,[login],
     (err, results) => {
       if (err) {
         console.log(err);
@@ -107,11 +156,9 @@ let {name,surname, login, password, tel,email,address} = req.body;
       console.log(results.rows);
 
       if (results.rows.length > 0) {
-        console.log(results.rows);
         const userLogin = req.body;
         req.flash("bad_msg", ` ${userLogin.login} juz istnieje`);
         res.redirect("/")
-        
       } else {
         //create account
         pool.query(
@@ -130,22 +177,38 @@ let {name,surname, login, password, tel,email,address} = req.body;
       }
     }
   );
-}
-catch{
-console.log("err")
-res.redirect('/')
-}
+}catch{
+  console.log("err")
+  res.redirect('/')
+  }
 })
 
-/* send question */
-app.post('/question',(req,res)=>{
-  console.log(req.body.yescat)
-  pool.query(`select * from account where userlogin = id`,(err,res)=>{
-      console.log("------mam---------", +req.user.id + "---konie-----")
-    
-    })
+/* send question and save 
+!!!!!make a redirect if user has  previously  added post!!!!!
+*/
+app.post('/question',async (req,res)=>{
+
+try{
+
+    let {cat,dog, textarea} = req.body;
+
+await  pool.query(
+  `insert into post(id, q1,q2,q3post)
+        values('${req.user.id}','${cat}','${dog}','${textarea}')`,
+  (err, results) => {
+    if (err) {
+      console.log(err);
+    }else {
+      res.redirect("/list");
+    }
+  }
+);
+}catch{
+  console.log("err")
   res.redirect('/')
+  }
 })
+/* end send queston  */
 
 app.post('/log',passport.authenticate('local',{
 successRedirect:'/panel',
@@ -157,6 +220,32 @@ function(req,res,next){
 }) 
 
 
+/*  app.post('/list',async (req,res)=>{
+  try{
+  
+   
+    // Validation passed
+   await pool.query(
+    
+      `SELECT userlogin, q1, q2,q3post FROM account a join post p on a.id = p.id WHERE userlogin = 'a' `,
+      (err, results) => {
+        if (err) {
+          console.log(err);
+        }
+        if (results.rows.length > 0) {
+        
+         console.log("ok"+ results.rows[2].q1)
+         console.log("ok"+ results.rowCount)
+      
+       
+         }
+        });
+  }catch{
+    console.log("err")
+    }
+    
+    res.redirect('/list')
+})  */
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {

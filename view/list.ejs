@@ -9,5 +9,23 @@
 <body>
     
     lista
+    <a href="/list">link</a>
+    <a href="/panel">link</a>
+
+    <form action="/list" method="get">
+        <button type="submit"> get</button>
+    </form>
+    
+    <form action="/list" method="post">
+        <button type="submit"> post</button>
+    </form>
+
+
+
+<% for (var i =0; i <=post.length-1;  i++ ) { %>
+    <br/>  <%= post[i].userlogin %> <%= post[i].q1 %> <%= post[i].q2 %> <%= post[i].q3post %> 
+    <%# d %>
+    <% } %>
 </body>
+
 </html>
