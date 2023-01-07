@@ -63,40 +63,6 @@ app.get('/logout', function(req, res, next) {
     res.redirect('/');
   });
 });
-/* app.get('/checklist',async (req,res)=>{
-  try{
-    
-   
-    // Validation passed
-   await pool.query(
-      `SELECT userlogin, q1, q2,q3post FROM account a join post p on a.id = p.id WHERE userlogin = 'a' `,
-      (err, results) => {
-        if (err) {
-          console.log(err);
-        }
-        if (results.rows.length > 0) {
-        
-          console.log("ok"+ results.rows[2].q1)
-          for(let i =0 ; i<results.rows.length-1 ;i++){
-            console.log(results.rows[i].q1 + i)
-            console.log(results.rows[i].q2 + i)
-            console.log(results.rows[i].q3post + i)
-          }
-         
-     }
-        
-
-  
-     
-      }
-      
-    );
-  }catch{
-    console.log("err")
-    }
-    
-    res.redirect('/list')
-}) */
 
 
 
@@ -132,16 +98,10 @@ app.get('/panel',checkNotAuthenticated,(req,res)=>{
 app.post('/',async (req,res)=>
 {  
 try{
-    /* 
-    rejestracja
-    1 - sprawdzam czy wystepuje login 
-      1a -jesli nie to tworze konto
-    */
-let {name,surname, login, password, tel,email,address} = req.body;
-
+  let {name,surname, login, password, tel,email,address} = req.body;
   hashPass = await bcrypt.hash(password, 10);
 
-  // Validation passed
+  
  await pool.query(
     `SELECT * FROM account WHERE userlogin = $1`,[login],
     (err, results) => {
@@ -149,7 +109,6 @@ let {name,surname, login, password, tel,email,address} = req.body;
         console.log(err);
       }
       console.log(results.rows);
-
       if (results.rows.length > 0) {
         const userLogin = req.body;
         req.flash("bad_msg", ` ${userLogin.login} juz istnieje`);
@@ -167,12 +126,10 @@ let {name,surname, login, password, tel,email,address} = req.body;
             const userLogin = req.body;
             req.flash("success_msg", `Witaj ${userLogin.login} . Możesz się zalogować`);
             res.redirect("/");
-          }
-        );
+          });
       }
-    }
-  );
-}catch{
+    });
+} catch {
   console.log("err")
   res.redirect('/')
   }
@@ -186,23 +143,18 @@ let {name,surname, login, password, tel,email,address} = req.body;
 !!!!!make a redirect if user has  previously  added post!!!!!
 */
 app.post('/question',async (req,res)=>{
-
 try{
-
-    let {cat,dog, textarea} = req.body;
-
+let {cat,dog, textarea} = req.body;
 await  pool.query(
-  `insert into post(id, q1,q2,q3post)
-        values('${req.user.id}','${cat}','${dog}','${textarea}')`,
+  `insert into post(id, q1,q2,q3post) values('${req.user.id}','${cat}','${dog}','${textarea}')`,
   (err, results) => {
     if (err) {
       console.log(err);
     }else {
       res.redirect("/list");
     }
-  }
-);
-}catch{
+  });
+} catch {
   console.log("err")
   res.redirect('/')
   }
@@ -219,32 +171,8 @@ function(req,res,next){
 }) 
 
 
-/*  app.post('/list',async (req,res)=>{
-  try{
-  
-   
-    // Validation passed
-   await pool.query(
-    
-      `SELECT userlogin, q1, q2,q3post FROM account a join post p on a.id = p.id WHERE userlogin = 'a' `,
-      (err, results) => {
-        if (err) {
-          console.log(err);
-        }
-        if (results.rows.length > 0) {
-        
-         console.log("ok"+ results.rows[2].q1)
-         console.log("ok"+ results.rowCount)
-      
-       
-         }
-        });
-  }catch{
-    console.log("err")
-    }
-    
-    res.redirect('/list')
-})  */
+
+
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
@@ -260,14 +188,5 @@ function checkNotAuthenticated(req, res, next) {
   }
   res.redirect("/");
 }
-
-
-
-
-
-
-
-
-
 
 app.listen(port);
