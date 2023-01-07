@@ -32,7 +32,7 @@ function initialize(){
 
                     bcrypt.compare(password, user.userpassword,(err,isMatch)=>{
                         if(err){
-                            console.log(err+ "jakis error")
+                            console.log(err)
                         }
                         if(isMatch){
                             console.log(' haslo ok ')
@@ -72,6 +72,7 @@ function initialize(){
             return done(err);
           }
           console.log(`ID is ${results.rows[0].id}`);
+         
           return done(null, results.rows[0]);
         });
       });

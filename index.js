@@ -9,9 +9,11 @@ const flash = require('express-flash');
 const sesion = require('express-session');
 const passport = require('passport');
 const initializePassport = require("./passConf");
+const registryUser = require('./registryUser')
 
-initializePassport(passport)
-/*  */
+
+
+initializePassport(passport);
 
 
 /* static files  */
@@ -56,6 +58,8 @@ app.get('/log',checkAuthenticated,(req,res)=>{
         success_msg : req.flash('success_msg')});
 })
 
+
+
 app.get('/logout', function(req, res, next) {
   req.logout(function(err) {
     if (err) { return next(err); }
@@ -64,76 +68,34 @@ app.get('/logout', function(req, res, next) {
 });
 
 app.get('/list',(req,res)=>{
+  
     res.render('list')
 })
 app.get('/panel',checkNotAuthenticated,(req,res)=>{
 
   console.log(req.user)
+
     res.render('blog',{user:req.user.userlogin})
 })
-app.get('/bad',(req,res)=>{
 
-    res.render('bad')
+
+
+/* post */
+
+/*registry new user and check if already exist user  */
+app.post('/',registryUser)
+
+/* send question */
+app.post('/question',(req,res)=>{
+  console.log(req.body.yescat)
+  pool.query(`select * from account where userlogin = id`,(err,res)=>{
+      console.log("------mam---------", +req.user.id + "---konie-----")
+    
+    })
+  res.redirect('/')
 })
 
-
-/* post  */
-app.post('/',async (req,res)=>
-{
-try{
-    /* 
-    rejestracja
-    1 - sprawdzam czy wystepuje login 
-      1a -jesli nie to tworze konto
-    */
-let {name,surname, login, password, tel,email,address} = req.body;
-
-  hashPass = await bcrypt.hash(password, 10);
-
-  // Validation passed
-  pool.query(
-    `SELECT * FROM account
-      WHERE userlogin = $1`,
-    [login],
-    (err, results) => {
-      if (err) {
-        console.log(err);
-      }
-      console.log(results.rows);
-
-      if (results.rows.length > 0) {
-        console.log(results.rows);
-        const userLogin = req.body;
-        req.flash("bad_msg", ` ${userLogin.login} juz istniej`);
-        res.redirect("/")
-        
-      } else {
-        //create account
-        pool.query(
-          `insert into account(username, usersurname,userlogin,userpassword,usertel,usermail,useraddress)
-                values('${name}','${surname}','${login}','${hashPass}',${tel},'${email}','${address}')`,
-          (err, results) => {
-            if (err) {
-              throw err;
-            }
-            console.log(results.rows);
-            const userLogin = req.body;
-            req.flash("success_msg", `Witaj ${userLogin.login} . Możesz się zalogować`);
-            res.redirect("/");
-          }
-        );
-      }
-    }
-  );
-}
-catch{
-console.log("cos poszło nie tak")
-res.redirect('/')
-}
-})
-
-
- app.post('/log',passport.authenticate('local',{
+app.post('/log',passport.authenticate('local',{
 successRedirect:'/panel',
 failureRedirect:'/',
 failureFlash:true
@@ -143,22 +105,17 @@ function(req,res,next){
 }) 
 
 
-/*  */
+
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return res.redirect("/panel");
   }
   next();
 }
-/* 
-*/
+
 function checkNotAuthenticated(req, res, next) {
 
   if (req.isAuthenticated()) {
-    
-
- 
-   
     return next();
   }
   res.redirect("/");
