@@ -95,7 +95,7 @@ app.post('/question',(req,res)=>{
   res.redirect('/')
 })
 
-app.post('/log',passport.authenticate('local',{
+app.post('/panel',passport.authenticate('local',{
 successRedirect:'/panel',
 failureRedirect:'/',
 failureFlash:true
