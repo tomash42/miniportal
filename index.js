@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 4444
+const port = process.env.PORT||5555
 
 /* requaied for data base */
 const bcrypt = require('bcrypt');
