@@ -96,7 +96,7 @@ let {name,surname, login, password, tel,email,address} = req.body;
   hashPass = await bcrypt.hash(password, 10);
 
   // Validation passed
-  pool.query(
+ await pool.query(
     `SELECT * FROM account
       WHERE userlogin = $1`,
     [login],
