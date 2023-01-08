@@ -72,7 +72,8 @@ app.get('/list',async (req,res)=>{
     await pool.query(`	SELECT userlogin, q1, q2,q3post FROM account a join post p on a.id = p.id ORDER BY userlogin; `,
       (err, results) => {
         if (err) {
-          console.log(err);
+          throw err;
+          //console.log()
         }
         return res.render('list',{post : results.rows})
         });
