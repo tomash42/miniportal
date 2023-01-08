@@ -106,7 +106,8 @@ try{
     `SELECT * FROM account WHERE userlogin = $1`,[login],
     (err, results) => {
       if (err) {
-        console.log(err);
+        throw err;
+        //uwaga byl consollog
       }
       console.log(results.rows);
       if (results.rows.length > 0) {
