@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/list.css">
     <title>List</title>
 </head>
 <body>
@@ -38,20 +39,20 @@
                 <% for (var i =0; i <=post.length-1;  i++ ) { %>
                     <div class="card  mt-3 p-0 m-0">
                         <div class="card-header">
-                            <h2> Użytkonik <span><%= post[i].userlogin %></span> odpowiedział</h2>
+                            <h4> Użytkonik <span><%= post[i].userlogin %></span> odpowiedział</h4>
                         </div>
                         <div class="card-body text-center">
                           <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                <h5 class="card-title">Czy lubisz psa ?</h5>
+                                <h4 class="card-title">Czy lubisz psa ?</h4>
                                 <p class="card-text"><%= post[i].q1 %></p>
                             </li>
                             <li class="list-group-item">
-                                <h5 class="card-title">Czy lubisz kota? ?</h5>
+                                <h4 class="card-title">Czy lubisz kota? ?</h4>
                                 <p class="card-text"><%= post[i].q2 %></p>
                             </li>
                             <li class="list-group-item">
-                                <h5 class="card-title">Co nie co o pogodzie </h5>
+                                <h4 class="card-title">Co nie co o pogodzie </h4>
                                 <p class="card-text"><%= post[i].q3post %></p>
                             </li>
                           </ul>
