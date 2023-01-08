@@ -14,3 +14,19 @@ header{
 .colTwo{
     background:             linear-gradient(-20deg, rgb(1, 91, 143) 0%, 35%, rgb(0, 162, 255)100%);
 }
+
+.container span:nth-child(1){
+    color: rgb(67, 151, 88);
+}
+.container span:nth-child(2){
+    color: rgb(52, 97, 180);
+}
+.container span:nth-child(3){
+    color: rgb(148, 92, 201);
+}
+.container span:nth-child(4){
+    color: rgb(211, 105, 44);
+}
+.container span:nth-child(6){
+    color: rgb(196, 190, 108);
+}

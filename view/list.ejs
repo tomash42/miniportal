@@ -4,28 +4,65 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <title>List</title>
 </head>
 <body>
-    
-    lista
-    <a href="/list">link</a>
-    <a href="/panel">link</a>
+    <header class="sticky-top">
+ 
+        <nav class="navbar navbar-expand-lg  navbar-light bg-light ">
+            <div class="container"> 
+                <span class="navbar-brand">
+                    <img src="img/logo.png" alt="logo" style="width: 10%;">
+                    <span class="lead">Mikroportal</span>
+                </span>
+                <button class="navbar-toggler mt-1" type="button" 
+                data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Menu">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                    <ul class="navbar-nav h4">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link " >Home</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header> 
+    <article>
+    <section id="usercoment">
+        <div class="container">
+            <div class="row">
+                <% for (var i =0; i <=post.length-1;  i++ ) { %>
+                    <div class="card  mt-3 p-0 m-0">
+                        <div class="card-header">
+                            <h2> Użytkonik <%= post[i].userlogin %> odpowiedział</h2>
+                        </div>
+                        <div class="card-body text-center">
+                          <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <h5 class="card-title">Czy lubisz psa ?</h5>
+                                <p class="card-text"><%= post[i].q1 %></p>
+                            </li>
+                            <li class="list-group-item">
+                                <h5 class="card-title">Czy lubisz kota? ?</h5>
+                                <p class="card-text"><%= post[i].q2 %></p>
+                            </li>
+                            <li class="list-group-item">
+                                <h5 class="card-title">Co nie co o pogodzie </h5>
+                                <p class="card-text"><%= post[i].q3post %></p>
+                            </li>
+                          </ul>
+                        </div>
+                    </div>
+                 <% } %>
+                </div>
+        </div>
+    </section>
+</article>
 
-    <form action="/list" method="get">
-        <button type="submit"> get</button>
-    </form>
-    
-    <form action="/list" method="post">
-        <button type="submit"> post</button>
-    </form>
-
-
-
-<% for (var i =0; i <=post.length-1;  i++ ) { %>
-    <br/>  <%= post[i].userlogin %> <%= post[i].q1 %> <%= post[i].q2 %> <%= post[i].q3post %> 
-    <%# d %>
-    <% } %>
 </body>
 
 </html>

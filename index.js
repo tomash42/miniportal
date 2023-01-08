@@ -80,8 +80,6 @@ app.get('/list',async (req,res)=>{
   }catch{
     console.log("err")
   }
-
-
     
 })
 /* end display post */
