@@ -191,14 +191,5 @@ function checkNotAuthenticated(req, res, next) {
   res.redirect("/");
 }
 
-pool.query(`create table post(
-	id bigint,
-	q1 varchar (10),
-	q2 varchar (10),
-	q3post text,
-)`,(err,res)=>
-  {
-    console.log("ok"+ err,res)
-  })
 
 app.listen(port);
