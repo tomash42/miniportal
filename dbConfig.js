@@ -1,5 +1,5 @@
 /* 
-set conf postgresql
+set conf postsgresqssl
 
 */
 
