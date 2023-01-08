@@ -12,5 +12,4 @@ const  pool = new Pool(
         connectionString: isProd ? process.env.DB_DATABASE_URL : connetion 
     }
 )
-
 module.exports = {pool}

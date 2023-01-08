@@ -196,10 +196,9 @@ pool.query(`create table post(
 	q1 varchar (10),
 	q2 varchar (10),
 	q3post text,
-	constraint fk_key foreign key (id) references account (id) 
 )`,(err,res)=>
   {
-    console.log("ok" +err, res)
+    console.log("ok"+ err,res)
   })
 
 app.listen(port);
