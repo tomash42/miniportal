@@ -171,9 +171,6 @@ function(req,res,next){
 }) 
 
 
-
-
-
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return res.redirect("/panel");
@@ -188,6 +185,5 @@ function checkNotAuthenticated(req, res, next) {
   }
   res.redirect("/");
 }
-
 
 app.listen(port);

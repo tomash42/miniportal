@@ -12,7 +12,6 @@ function initialize(){
                 if(err){
                     throw err;
                 }
-                console.log(res.rows);
                 if(res.rows.length>0){
                     const user = res.rows[0];
                     bcrypt.compare(password, user.userpassword,(err,isMatch)=>{
@@ -32,8 +31,7 @@ function initialize(){
                 }else{
                     console.log("Uzytkownik z takim logine nie istnieje")
                     return done(null,false, {
-                        
-                        message : " No user with that login"
+                         message : " No user with that login"
                     })
                 }
             }
